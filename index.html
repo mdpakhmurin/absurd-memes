@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Абсурдные мемы</title>
+  <meta name="description" content="Генератор абсурдных мемов: случайное фото и случайная фраза, которые никак не связаны.">
+  <meta name="theme-color" content="#d5dde0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c2427" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f2cf1d'/%3E%3Ctext x='32' y='45' font-family='Arial' font-weight='900' font-size='36' text-anchor='middle' fill='%23233036'%3E%3F!%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Noto+Sans:wght@600&family=Unbounded:wght@800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <h1 class="logo">Абсурдные мемы</h1>
+    <p class="tagline">Случайное фото, случайная фраза. Связи нет и не будет.</p>
+  </header>
+
+  <main class="layout">
+    <section class="stage" aria-label="Мем">
+      <div class="frame" id="frame">
+        <canvas id="canvas" aria-label="Сгенерированный мем"></canvas>
+        <div class="loader" aria-hidden="true"></div>
+      </div>
+      <div class="credits" id="credits"></div>
+    </section>
+
+    <section class="panel" aria-label="Управление">
+      <button class="next" id="btnNext" type="button">Ещё мем</button>
+
+      <div class="pair">
+        <button class="soft" id="btnImg" type="button">Другое фото</button>
+        <button class="soft" id="btnText" type="button">Другой текст</button>
+      </div>
+
+      <fieldset class="seg">
+        <legend>Текст</legend>
+        <label><input type="radio" name="mode" value="word"><span>Слово</span></label>
+        <label><input type="radio" name="mode" value="phrase" checked><span>Фраза</span></label>
+        <label><input type="radio" name="mode" value="dialog"><span>Диалог</span></label>
+      </fieldset>
+
+      <label class="switch">
+        <input type="checkbox" id="mat">
+        <span class="track" aria-hidden="true"></span>
+        <span>С матом</span>
+      </label>
+
+      <div class="actions">
+        <button class="soft" id="btnCopy" type="button">Копировать</button>
+        <button class="soft" id="btnDownload" type="button">Скачать</button>
+        <button class="soft" id="btnShare" type="button" hidden>Поделиться</button>
+        <button class="soft" id="btnLink" type="button">Ссылка</button>
+      </div>
+
+      <details class="editor" id="editor">
+        <summary>Редактор</summary>
+        <div class="editor-body">
+          <div id="textFields"></div>
+          <label class="field">
+            <span>Где текст</span>
+            <select id="pos">
+              <option value="auto">Сам найду место</option>
+              <option value="top">Сверху</option>
+              <option value="bottom">Снизу</option>
+              <option value="both">Сверху и снизу</option>
+              <option value="center">По центру</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Размер текста</span>
+            <input type="range" id="fs" min="0.5" max="2" step="0.05" value="1">
+          </label>
+          <div class="pair">
+            <label class="soft file">Своё фото<input type="file" id="file" accept="image/*" hidden></label>
+            <button class="soft" id="btnResetPos" type="button">Расставить заново</button>
+          </div>
+          <p class="hint">Надписи можно таскать прямо на картинке. Фото или текст можно вставить из буфера.</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
