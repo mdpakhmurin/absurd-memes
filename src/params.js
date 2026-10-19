@@ -1,5 +1,5 @@
 // Параметры мема в адресной строке. Это наш «API» на GitHub Pages:
-// ?mode=phrase&text=Колбасы&img=1084&size=1200x800&pos=bottom&mat=1&fs=1.2
+// ?mode=phrase&text=Колбасы&img=Имя_файла.jpg&pos=bottom&mat=1&fs=1.2
 const MODES = ['word', 'phrase', 'dialog'];
 const POSITIONS = ['auto', 'top', 'bottom', 'both', 'center'];
 
@@ -11,8 +11,8 @@ export function readParams(search = location.search) {
     const lines = q.get('text').split('|').map((s) => s.trim()).filter(Boolean).slice(0, 4);
     if (lines.length) out.text = lines;
   }
-  if (/^\d+$/.test(q.get('img') || '')) out.img = q.get('img');
-  if (/^\d+x\d+$/.test(q.get('size') || '')) out.size = q.get('size');
+  const img = q.get('img');
+  if (img && img.length <= 240 && /\.jpe?g$/i.test(img)) out.img = img;
   if (POSITIONS.includes(q.get('pos'))) out.pos = q.get('pos');
   if (q.has('mat')) out.mat = q.get('mat') === '1';
   const fs = parseFloat(q.get('fs'));
@@ -33,10 +33,7 @@ export function buildParams(state) {
   const q = new URLSearchParams();
   q.set('mode', state.mode);
   if (state.texts.length) q.set('text', state.texts.join('|'));
-  if (state.image && !state.image.custom) {
-    q.set('img', state.image.id);
-    q.set('size', state.image.size);
-  }
+  if (state.image?.id && !state.image.custom) q.set('img', state.image.id);
   if (state.pos !== 'auto') q.set('pos', state.pos);
   if (state.mat) q.set('mat', '1');
   if (state.fontScale !== 1) q.set('fs', String(state.fontScale));

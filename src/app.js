@@ -60,7 +60,7 @@ async function fetchText() {
 
 async function fetchImage(opts) {
   const im = await randomImage(opts);
-  return { el: im.img, w: im.img.naturalWidth, h: im.img.naturalHeight, id: im.id, size: im.size, author: im.author, custom: false };
+  return { el: im.img, w: im.img.naturalWidth, h: im.img.naturalHeight, id: im.id, author: im.author, page: im.page, custom: false };
 }
 
 async function generate({ img = true, text = true } = {}) {
@@ -166,7 +166,7 @@ function renderCredits() {
   };
   const im = state.image;
   if (im?.custom) add('Фото:', 'твоё');
-  else if (im) add('Фото:', im.author ? `${im.author}, Picsum` : 'Picsum', `https://picsum.photos/id/${im.id}/info`);
+  else if (im) add('Фото:', im.author ? `${im.author}, Wikimedia Commons` : 'Wikimedia Commons', im.page);
   if (state.source?.source) add('Текст:', state.source.source, state.source.sourceUrl);
 }
 
@@ -310,7 +310,7 @@ async function init() {
   const fontReady = document.fonts?.load(`600 64px ${FONT_FAMILY}`, 'Абв').catch(() => {});
   try {
     const [image, phrase] = await Promise.all([
-      fetchImage({ id: p.img, size: p.size }),
+      fetchImage({ id: p.img }),
       p.text ? { lines: p.text, source: null } : fetchText(),
       fontReady,
     ]);
