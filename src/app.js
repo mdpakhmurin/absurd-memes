@@ -55,7 +55,7 @@ function setImage(image) {
 /* ---------- генерация ---------- */
 
 async function fetchText() {
-  return state.mode === 'word' ? randomWord() : randomPhrase({ mode: state.mode, mat: state.mat });
+  return state.mode === 'word' ? randomWord({ mat: state.mat }) : randomPhrase({ mode: state.mode, mat: state.mat });
 }
 
 async function fetchImage(opts) {
@@ -192,8 +192,7 @@ document.querySelectorAll('input[name="mode"]').forEach((r) =>
 
 $('#mat').addEventListener('change', (e) => {
   state.mat = e.target.checked;
-  if (state.mode !== 'word') generate({ img: false });
-  else writeUrl(state);
+  generate({ img: false });
 });
 
 $('#pos').addEventListener('change', (e) => {
